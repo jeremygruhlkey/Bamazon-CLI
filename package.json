@@ -1,0 +1,22 @@
+{
+  "name": "bamazon-cli",
+  "version": "1.0.0",
+  "description": "Sales & inv tracking CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremygruhlkey/Bamazon-CLI.git"
+  },
+  "author": "Jeremy Thomas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeremygruhlkey/Bamazon-CLI/issues"
+  },
+  "homepage": "https://github.com/jeremygruhlkey/Bamazon-CLI#readme",
+  "dependencies": {
+    "inquirer": "^5.1.0"
+  }
+}
