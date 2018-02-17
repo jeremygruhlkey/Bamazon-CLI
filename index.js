@@ -25,7 +25,7 @@ const displayItems = function(){
         }
         console.log(" ");
         console.log("-------------------------------------------------------");
-        console.log("CHECK OUT THESE GRET DEALS!!!");
+        console.log("CHECK OUT THESE GREAT DEALS!!!");
         console.log("ID:");
         data.map(item => console.log(item.item_id + ":  " + item.product_name + " for just " + "$" + item.price));
         console.log("");
@@ -48,27 +48,56 @@ const selectItems = function(){
     }])
     .then(function(answer) {
         const item = answer.buying;
-        const quantity = answer.quantity
+        let quantity = Number(answer.quantity)
         const query = connection.query(`SELECT product_name, department_name, price, stock_quantity FROM ${TABLE} WHERE item_id = ${item}`, function(error, data){
             if(error) {
                 console.log(error)
             }
             const product = data[0].product_name;
-            const inStock = data[0].stock_quantity;
-            const price = data[0].price;
+            const inStock = Number(data[0].stock_quantity);
+            const price = Number(data[0].price);
 
             console.log(product + ", a STEAL at " + "$" + price + "!");
             if(inStock < quantity){
-                console.log("But sorry, we don't have as many as you would like.");
-                console.log("We only have " + data[0].stock_quantity + ". Too bad. So sad. Buy something else.");
+                console.log("\x1b[31m","But sorry, we don't have as many as you would like.");
+                console.log("\x1b[31m","We only have " + inStock + ". Too bad. Take what we got or buy something else.");
+                inquirer.prompt(
+                    {
+                        name: "tryAgain",
+                        type: "list",
+                        message: "what would you like to do?",
+                        choices: [
+                            "Buy all we have.",
+                            "Make another selection."
+                        ]
+                    }
+                    ).then(function(answer){
+                        console.log(answer);
+                        if(answer.tryAgain === "Buy all we have."){
+                            quantity = inStock;
+                            console.log("\x1b[32m","Great Choice! Your total for " + quantity + " is: " + "$" + (quantity * price) + ".");
+                            console.log("\x1b[32m","Thanks for your purchase. Bye now!");
+                            console.log("\x1b[0m", "")
+                            updateInventory(product, quantity, inStock);
+                            
+                        }
+                        else if(answer.tryAgain === "Make another selection."){
+                            displayItems();
+                        }
+                    })
+            }else{
+                console.log("");
+                console.log("\x1b[32m","Great Choice! Your total for " + quantity + " is: " + "$" + (quantity * data[0].price) + ".");
+                console.log("\x1b[32m","Thanks for your purchase. Bye now!");
+                console.log("\x1b[0m","");
+                updateInventory(product, quantity, inStock);
             }
-            console.log("Great Choice! Your total for " + quantity + " is: " + "$" + (quantity * data[0].price) + ".");
-            updateInventory(product, quantity);
         })
         
     })
 };
 
-const updateInventory = function(product, quantity){
-    
+const updateInventory = function(product, quantity, inStock){
+    const newStock = inStock - quantity;
+    const query = connection.query(`UPDATE ${TABLE} SET stock_quantity = ${newStock} WHERE product_name = "${product}";`);
 }
