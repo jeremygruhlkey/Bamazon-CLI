@@ -27,7 +27,7 @@ const displayItems = function(){
         console.log("-------------------------------------------------------");
         console.log("CHECK OUT THESE GREAT DEALS!!!");
         console.log("ID:");
-        data.map(item => console.log(item.item_id + ":  " + item.product_name + " for just " + "$" + item.price));
+        data.forEach(item => console.log(item.item_id + ":  " + item.product_name + " for just " + "$" + item.price));
         console.log("");
         selectItems();
     })    
@@ -72,7 +72,6 @@ const selectItems = function(){
                         ]
                     }
                     ).then(function(answer){
-                        console.log(answer);
                         if(answer.tryAgain === "Buy all we have."){
                             quantity = inStock;
                             console.log("\x1b[32m","Great Choice! Your total for " + quantity + " is: " + "$" + (quantity * price) + ".");
