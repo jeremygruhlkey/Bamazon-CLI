@@ -77,7 +77,7 @@ const selectItems = function(){
                             console.log("\x1b[32m","Great Choice! Your total for " + quantity + " is: " + "$" + (quantity * price) + ".");
                             console.log("\x1b[32m","Thanks for your purchase. Bye now!");
                             console.log("\x1b[0m", "")
-                            updateInventory(product, quantity, inStock);
+                            updateInventory(product, quantity, inStock, price);
                             
                         }
                         else if(answer.tryAgain === "Make another selection."){
@@ -89,14 +89,16 @@ const selectItems = function(){
                 console.log("\x1b[32m","Great Choice! Your total for " + quantity + " is: " + "$" + (quantity * data[0].price) + ".");
                 console.log("\x1b[32m","Thanks for your purchase. Bye now!");
                 console.log("\x1b[0m","");
-                updateInventory(product, quantity, inStock);
+                updateInventory(product, quantity, inStock, price);
             }
         })
         
     })
 };
 
-const updateInventory = function(product, quantity, inStock){
+const updateInventory = function(product, quantity, inStock, price){
     const newStock = inStock - quantity;
+    const totalPrice = quantity * price;
     const query = connection.query(`UPDATE ${TABLE} SET stock_quantity = ${newStock} WHERE product_name = "${product}";`);
-}
+    const query2 = connection.query(`UPDATE ${TABLE} SET product_sales = product_sales + ${totalPrice} WHERE product_name = "${product}";`);
+};
