@@ -42,4 +42,25 @@ VALUES ("Booker's - Bourbon", "Booze", 32.00, 10);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Clase Azul - Tequila", "Booze", 30.00, 15);
 
-SELECT * FROM products;
+CREATE TABLE departments (
+	department_id INT NOT NULL AUTO_INCREMENT,
+	department_name  VARCHAR(50) NOT NULL,
+    overhead_costs DECIMAL (6, 2) NOT NULL,
+     PRIMARY KEY (department_id));
+     
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("Sporting Goods", 200);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("Books", 300);
+    
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("Booze", 500);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("Mythical Objects", 1000);
+
+
+-- SELECT * FROM departments;
+
+-- SELECT * FROM products;

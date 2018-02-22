@@ -123,14 +123,14 @@ const addProduct = function(){
             message: "And how many should we put on our digital shelves?",
         }]
     ).then(function(answer){
-        connection.query(`INSERT INTO ${TABLE} (product_name, department_name, price, stock_quantity) 
-                        VALUES ("${answer.newItem}", "${answer.department}", "${answer.price}", "${answer.stock}");`);
+        connection.query(`INSERT INTO ${TABLE} (product_name, department_name, price, stock_quantity, product_sales) 
+                        VALUES ("${answer.newItem}", "${answer.department}", "${answer.price}", "${answer.stock}", "0");`);
         managerOptions();
         })
 }
 
 const quit = function(){
-    console.log("Hello yeah, baby! Let's head to the movies!")
+    console.log("Hell yeah, baby! Let's head to the movies!")
 }
 
 
