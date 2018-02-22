@@ -3,7 +3,7 @@ const mysql = require("mysql");
 const Table = require("cli-table");
 
 const DATABASE = "bamazonDB";
-const TABLE = "products";
+const TABLE = "departments";
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -45,12 +45,34 @@ const viewDepartmentSales = function(){
         if(error) {
             console.log(error);
         }
-        console.log(data);
-        // data.forEach(item => console.log(item.item_id + ": " + item.product_name + ", " + item.stock_quantity + " in stock." ))
-        // managerOptions();
+        const table = new Table({
+           head: ["id", "department_name", "overhead_costs", "product_sales", "total_profit"],
+           colWidths: [5, 20, 20, 15, 15] 
+        })
+
+        data.forEach(function(item){
+            table.push([item.department_id, item.department_name, item.overhead_costs, item.product_sales, item.total_profit])
+        });
+        console.log(table.toString());
+        supervisorOptions();
     })
 }
 
 const createDepartment = function(){
-    console.log("Creating department");
+    inquirer.prompt([
+        {
+            name: "departmentName",
+            type: "input",
+            message: "What is the name of the new department?"
+        },
+        {
+            name: "overheadCosts",
+            type: "input",
+            message: "What will the overhead costs be?"
+        }]
+    ).then(function(answer){
+        connection.query(`INSERT INTO ${TABLE} ( department_name, overhead_costs) 
+                        VALUES ("${answer.departmentName}", "${answer.overheadCosts}");`);
+        supervisorOptions();
+        })
 }
