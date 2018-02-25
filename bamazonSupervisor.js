@@ -68,7 +68,14 @@ const createDepartment = function(){
         {
             name: "overheadCosts",
             type: "input",
-            message: "What will the overhead costs be?"
+            message: "What will the overhead costs be?",
+            validate: function(str){
+                if (Number.isInteger(parseInt(str))){
+                    return true
+                }else {
+                    return false
+                }
+            }
         }]
     ).then(function(answer){
         connection.query(`INSERT INTO ${TABLE} ( department_name, overhead_costs) 

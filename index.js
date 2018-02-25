@@ -29,22 +29,35 @@ const displayItems = function(){
         console.log("ID:");
         data.forEach(item => console.log(item.item_id + ":  " + item.product_name + " for just " + "$" + item.price));
         console.log("");
-        selectItems();
+        let numberOfItems = data.length
+        selectItems(numberOfItems);
     })    
 }
 
-const selectItems = function(){
+const selectItems = function(numberOfItems){
     inquirer
     .prompt([
     {
         name: "buying",
         type: "input",
-        message: "Please tell me the ID# of the item that will bring you joy, today?"
+        message: "Please tell me the ID# of the item that will bring you joy, today?",
+        validate: function(str){
+            if (Number(str) > 0 && Number(str) <= numberOfItems){
+            return true
+            }else { return false}
+        }
     },
     {
         name: "quantity",
         type: "input",
-        message: "And how many?"
+        message: "And how many?",
+        validate: function(str){
+            if (Number.isInteger(parseInt(str))){
+                return true
+            }else {
+                return false
+            }
+        }
     }])
     .then(function(answer) {
         const item = answer.buying;

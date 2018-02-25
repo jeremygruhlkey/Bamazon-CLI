@@ -84,12 +84,19 @@ const addInventory = function(){
         {
             name: "adding",
             type: "input",
-            message: "What is the ID # of the item you'd like to stock up on?"
+            message: "What is the ID # of the item you'd like to stock up on?",
         },
         {
             name: "quantity",
             type: "input",
-            message: "And how many would you like to add?"
+            message: "And how many would you like to add?",
+            validate: function(str){
+                if (Number.isInteger(parseInt(str))){
+                    return true
+                }else {
+                    return false
+                }
+            }
         }   
         ]
     ).then(function(answer){
@@ -115,12 +122,26 @@ const addProduct = function(){
         {
             name: "price",
             type: "input",
-            message: "How much would you like to charge for this amazing artifact?"
+            message: "How much would you like to charge for this amazing artifact?",
+            validate: function(str){
+                if (Number.isInteger(parseInt(str))){
+                    return true
+                }else {
+                    return false
+                }
+            }
         },
         {
             name: "stock",
             type: "input",
             message: "And how many should we put on our digital shelves?",
+            validate: function(str){
+                if (Number.isInteger(parseInt(str))){
+                    return true
+                }else {
+                    return false
+                }
+            }
         }]
     ).then(function(answer){
         connection.query(`INSERT INTO ${TABLE} (product_name, department_name, price, stock_quantity, product_sales) 
